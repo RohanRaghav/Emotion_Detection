@@ -1,0 +1,50 @@
+# Python virtual environments
+.venv/
+env/
+venv/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Audio feature/cache folders
+.vector_cache/
+
+# Dataset folders (if large, don't push raw data)
+Datasets/
+processed_data/
+# Model outputs
+*.pkl
+*.pt
+bert_emotion_model/
+results/
+bert_local/
+*.pth
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+mental_health.pth
+# Temporary files
+*.tmp
+*.swp
+*.swo
+New.py
+new.txt
+Mental.py
+Mental_Health.py
+Mental_Health_final.py
+Audio39
+Audio45
+ppppp_coverted.tsv
+cleaned_updated_dataset_modified.tsv
+One.wav
+test.tsv
+try
