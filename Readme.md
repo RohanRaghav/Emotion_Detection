@@ -1,111 +1,105 @@
-🎭 Multi-Modal Emotion Recognition (Audio + Text)
+# 🎭 Multi-Modal Emotion Recognition (Audio + Text)
 
-This project implements emotion recognition from both audio (speech) and text, using classical machine learning and deep learning approaches.
+This project implements **emotion recognition** from both **audio (speech)** and **text**, using classical machine learning and deep learning approaches.
 
-Audio pipeline: Speech → Feature Extraction (Librosa) → ML Classifiers (MLP, Stacking, Voting, XGBoost)
+---
 
-Text pipeline: Text → Tokenization → Deep Learning Models (BERT, BiLSTM) → Multi-label Emotion Prediction
+## 🔊 Audio Pipeline
+**Workflow:** Speech → Feature Extraction → ML Classifiers
+
+- **Feature Extraction:** Using [Librosa](https://librosa.org/)
+  - MFCCs + Delta + Delta-Delta
+  - Chroma
+  - Spectral features (Centroid, Bandwidth, Contrast, Rolloff)
+  - RMS Energy & Pitch statistics
+- **Data Processing:**
+  - Organizes EMO-DB and IEMOCAP datasets into `processed_data/` by emotion
+  - Data augmentation: pitch shift, time-stretch, noise
+  - Handles class imbalance with SMOTE
+- **Classifiers Trained:**
+  - MLP, Stacking, Voting, XGBoost
+- **Evaluation:**
+  - Confusion matrices
+  - Classification reports
+- **Outputs:**
+  - Trained model, scaler, label encoder saved as `audio_model_stacking.pkl`
+  - Confusion matrices: `confusion_matrix_MLP.png`, `confusion_matrix_Stacking.png`, etc.
+
+---
+
+## 📝 Text Pipeline
+**Workflow:** Text → Tokenization → Deep Learning Models → Multi-label Emotion Prediction
+
+- Supports **multi-label emotion classification**
+- Models used:
+  - BERT (fine-tuned)
+  - BiLSTM with embeddings & padding
+- **Evaluation Metrics:** Accuracy, F1 (micro/macro), Precision, Recall
+- Supports **interactive inference**:
+  ```text
+  Enter a sentence (or 'quit'): I am so happy today!
+  BERT Prediction: ['joy', 'excitement']
+  BiLSTM Prediction: ['happiness', 'excitement']
+
+Models saved as:
+
+-bert_emotion_model/
+
+-bilstm_emotion_model.pt
 
 📂 Project Structure
 .
 ├── Datasets/
-│   ├── EMO-DB/wav/             # Raw EMO-DB audio files
+│   ├── EMO-DB/wav/           # Raw EMO-DB audio files
 │   └── IEMOCAP/
-│       ├── IEMOCAP_audio/      # IEMOCAP audio files
-│       └── iemocapTrans.csv    # Metadata CSV
-├── processed_data/             # Organized audio files by emotion
-├── audio_train.py # Audio pipeline (ML)
-├── main.py        # Text pipeline (BERT + BiLSTM)
-├── bert_local/                 # Local BERT checkpoint
-├── results/                    # Output from Trainer
-├── audio_model_stacking.pkl     # Trained audio ML model
-├── bilstm_emotion_model.pt      # Trained BiLSTM model
-├── bert_emotion_model/          # Saved BERT model
-├── requirements.txt            # Python dependencies
+│       ├── IEMOCAP_audio/    # IEMOCAP audio files
+│       └── iemocapTrans.csv  # Metadata CSV
+├── processed_data/           # Organized audio files by emotion
+├── audio_train.py            # Audio pipeline (ML)
+├── main.py                   # Text pipeline (BERT + BiLSTM)
+├── bert_local/               # Local BERT checkpoint
+├── results/                  # Output from Trainer
+├── audio_model_stacking.pkl  # Trained audio ML model
+├── bilstm_emotion_model.pt   # Trained BiLSTM model
+├── bert_emotion_model/       # Saved BERT model
+├── requirements.txt          # Python dependencies
 └── README.md
 
-🚀 Features
-Audio Pipeline
-
-Organizes EMO-DB and IEMOCAP datasets into processed_data/ by emotion.
-
-Extracts audio features:
-
-MFCCs + Delta + Delta-Delta
-
-Chroma
-
-Spectral features (Centroid, Bandwidth, Contrast, Rolloff)
-
-RMS Energy & Pitch statistics
-
-Performs data augmentation (pitch shift, time-stretch, noise).
-
-Handles class imbalance with SMOTE.
-
-Trains multiple classifiers:
-
-MLP, Stacking, Voting, XGBoost
-
-Evaluates using confusion matrices & classification reports.
-
-Saves trained model + scaler + label encoder.
-
-Text Pipeline
-
-Supports multi-label emotion classification from text.
-
-Uses BERT fine-tuned for multi-label classification.
-
-Uses BiLSTM with embedding & padding for sequence learning.
-
-Evaluation metrics: Accuracy, F1 (micro/macro), Precision, Recall.
-
-Predict emotions interactively for user-input sentences.
-
-📦 Installation
-git clone https://github.com/your-username/multimodal-emotion-recognition.git
+🚀 Installation
+git clone [https://github.com/your-username/multimodal-emotion-recognition.git](https://github.com/RohanRaghav/Emotion_Detection.git)
 cd multimodal-emotion-recognition
 python -m venv .venv
-source .venv/bin/activate   # Linux/Mac
-.venv\Scripts\activate      # Windows
+# Activate environment
+# Linux / Mac
+source .venv/bin/activate
+# Windows
+.venv\Scripts\activate
 pip install -r requirements.txt
 
 🛠 Usage
 1️⃣ Audio Pipeline
 python audio_emotion_recognition.py
-
-
 Organizes datasets into processed_data/
 
-Extracts features, trains classifiers, saves audio_model_stacking.pkl
+Extracts features, trains classifiers
 
-Generates confusion matrices: confusion_matrix_MLP.png, confusion_matrix_Stacking.png, etc.
+Saves audio_model_stacking.pkl
 
-Inference:
+Generates confusion matrices
 
+Inference Example:
 import joblib
+
 stack_clf, le, scaler = joblib.load("audio_model_stacking.pkl")
 # Extract features from new audio file
 # Predict using stack_clf
-
 2️⃣ Text Pipeline
 python text_emotion_main.py
-
 
 Trains BERT & BiLSTM models
 
 Saves bert_emotion_model/ and bilstm_emotion_model.pt
-
-Supports interactive inference:
-
-Enter a sentence (or 'quit'): I am so happy today!
-BERT Prediction: ['joy', 'excitement']
-BiLSTM Prediction: ['happiness', 'excitement']
-
-
-Load models for inference:
-
+Inference Example:
 from transformers import BertTokenizer, BertForSequenceClassification
 import torch
 
@@ -126,9 +120,9 @@ Multi-label text classification uses sigmoid + BCEWithLogitsLoss.
 
 📊 Results
 
-Audio models evaluated using confusion matrices & classification reports.
+Audio Models: Evaluated with confusion matrices & classification reports
 
-Text models evaluated with accuracy, F1-micro, F1-macro.
+Text Models: Evaluated with accuracy, F1-micro, F1-macro
 
 👨‍💻 Author
 
