@@ -66,7 +66,7 @@ Models saved as:
 └── README.md
 
 🚀 Installation
-git clone [https://github.com/your-username/multimodal-emotion-recognition.git](https://github.com/RohanRaghav/Emotion_Detection.git)
+git clone (https://github.com/RohanRaghav/Emotion_Detection.git)
 cd multimodal-emotion-recognition
 python -m venv .venv
 # Activate environment
